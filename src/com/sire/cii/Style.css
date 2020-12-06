@@ -1,0 +1,14 @@
+
+.root{
+    -fx-background-color: #383838;
+    -fx-font-size: 10pt;
+}
+.label{
+    -fx-background-color: #ba8baf;
+}
+.button{
+    -fx-background-color: #ba8baf;
+}
+.button-blue{
+    -fx-background-color: #2919d6;
+}
