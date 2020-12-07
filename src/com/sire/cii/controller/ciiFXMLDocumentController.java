@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package canoninvoiceimport;
+package com.sire.cii.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
