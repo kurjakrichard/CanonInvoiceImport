@@ -1,14 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sire.cii.controller.ciiFXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="308.0" prefWidth="464.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sire.cii.controller.ciiFXMLDocumentController">
     <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
+        <Button fx:id="button" layoutX="190.0" layoutY="232.0" onAction="#handleButtonAction" text="Click Me!" />
+      <HBox layoutX="1.0" layoutY="34.0" prefHeight="154.0" prefWidth="464.0">
+         <children>
+            <VBox prefHeight="154.0" prefWidth="215.0">
+               <children>
+                    <Label fx:id="label" minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="222.0" text="Számla kelte:">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="label2" minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="223.0" text="Teljesítés dátuma:">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="label1" minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="217.0" text="Áfa teljesítés dátuma:">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="label4" minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="222.0" text="Fizetési határidő:">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="label5" minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="236.0" text="Számviteli teljesítés dátuma:">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="label6" minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="225.0" text="Megjegyzés:">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox prefHeight="134.0" prefWidth="221.0">
+               <children>
+                  <DatePicker prefHeight="24.0" prefWidth="224.0" />
+                  <DatePicker prefHeight="24.0" prefWidth="224.0" />
+                  <DatePicker prefHeight="24.0" prefWidth="224.0" />
+                  <DatePicker prefHeight="24.0" prefWidth="224.0" />
+                  <DatePicker prefHeight="24.0" prefWidth="224.0" />
+                  <TextField />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
     </children>
 </AnchorPane>

@@ -5,6 +5,7 @@
  */
 package com.sire.cii;
 
+import com.sire.cii.model.CiiModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,15 +17,19 @@ import javafx.stage.Stage;
  * @author balza
  */
 public class CanonInvoiceImport extends Application {
-    
+
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("ciiFXMLDocument.fxml"));
-        
+
         Scene scene = new Scene(root);
-        
+
         stage.setScene(scene);
         stage.show();
+
+        new Thread(() -> {
+            CiiModel.getInstance();
+        }).start();
     }
 
     /**
@@ -33,5 +38,5 @@ public class CanonInvoiceImport extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }
