@@ -5,7 +5,7 @@
  */
 package com.sire.cii;
 
-import com.sire.cii.model.CiiModel;
+import com.sire.cii.service.CiiService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,9 +27,6 @@ public class CanonInvoiceImport extends Application {
         stage.setScene(scene);
         stage.show();
 
-        new Thread(() -> {
-            CiiModel.getInstance();
-        }).start();
     }
 
     /**
