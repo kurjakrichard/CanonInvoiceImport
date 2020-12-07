@@ -11,8 +11,7 @@ package com.sire.cii.dto;
  */
 public class ImportDatas {
 //<editor-fold defaultstate="collapsed" desc="Class variables">
-    private int id;
-    private String invoiceNumber;
+    private double invoiceNumber;
     private String machineID;
     private String partnerName;
 //</editor-fold>
@@ -20,25 +19,17 @@ public class ImportDatas {
     public ImportDatas() {
     }
 
-    public ImportDatas(String invoiceNumber, String machineID, String partnerName) {
+    public ImportDatas(double invoiceNumber, String machineID, String partnerName) {
         this.invoiceNumber = invoiceNumber;
         this.machineID = machineID;
         this.partnerName = partnerName;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getInvoiceNumber() {
+    public double getInvoiceNumber() {
         return invoiceNumber;
     }
 
-    public void setInvoiceNumber(String invoiceNumber) {
+    public void setInvoiceNumber(double invoiceNumber) {
         this.invoiceNumber = invoiceNumber;
     }
 
@@ -56,6 +47,11 @@ public class ImportDatas {
 
     public void setPartnerName(String partnerName) {
         this.partnerName = partnerName;
+    }
+
+    @Override
+    public String toString() {
+        return "ImportDatas{" + "invoiceNumber=" + invoiceNumber + ", machineID=" + machineID + ", partnerName=" + partnerName + '}';
     }
 
             

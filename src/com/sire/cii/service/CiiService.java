@@ -5,12 +5,13 @@
  */
 package com.sire.cii.service;
 
+import com.sire.cii.dto.ImportDatas;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.*;
 
@@ -21,12 +22,12 @@ import org.apache.poi.xssf.usermodel.*;
 public final class CiiService {
 
 //<editor-fold defaultstate="collapsed" desc="Class variables">
-    private final String FILENAME = "cii.db";
     String excelFilePath = "iranyitoszam.xlsx";
+    List<ImportDatas> machines;
 //</editor-fold>
 
     public CiiService() {
-        excelToDatabase(excelFilePath);
+        excelToList(excelFilePath);
     }
 
     /**
@@ -34,54 +35,56 @@ public final class CiiService {
      *
      * @param excelFilePath
      */
-    private void excelToDatabase(String excelFilePath) {
-
+    private void excelToList(String excelFilePath) {
+        machines = new ArrayList<>();
+        double invoiceNumber = 0;
+        String machineID = null;
+        String partnerName = null;
         try {
             FileInputStream inputStream = new FileInputStream(excelFilePath);
             Workbook workbook = new XSSFWorkbook(inputStream);
-            //Csak az első munkalapot olvassa be, ez hiba
-            Sheet firstSheet = workbook.getSheetAt(0);
-            Iterator<Row> rowIterator = firstSheet.iterator();
+            Iterator<Sheet> sheetIterator = workbook.iterator();
+            while (sheetIterator.hasNext()) {
+                Sheet sheet = sheetIterator.next();
+                Iterator<Row> rowIterator = sheet.iterator();
+                while (rowIterator.hasNext()) {
+                    Row nextRow = rowIterator.next();
+                    Iterator<Cell> cellIterator = nextRow.cellIterator();
 
-            while (rowIterator.hasNext()) {
-                Row nextRow = rowIterator.next();
-                Iterator<Cell> cellIterator = nextRow.cellIterator();
-                double invoiceNumber = 0;
-                int count = 0;
-                //Végig megy az cellákon egy soron belül
-
-                while (cellIterator.hasNext()) {
-                    Cell nextCell = cellIterator.next();
-                    int columnIndex = nextCell.getColumnIndex();
-
-                    switch (columnIndex) {
-                        case 0:
-                        try {
-                            invoiceNumber = nextCell.getNumericCellValue();
-                            System.out.println("A számlaszám: " + invoiceNumber);
-                        } catch (Exception e) {
-                            System.out.println("Nem számlaszámot adtál meg!");
+                    //Végig megy az cellákon egy soron belül
+                    try {
+                        while (cellIterator.hasNext()) {
+                            Cell nextCell = cellIterator.next();
+                            int columnIndex = nextCell.getColumnIndex();
+                            switch (columnIndex) {
+                                case 0:
+                                    invoiceNumber = nextCell.getNumericCellValue();
+                                    break;
+                                case 17:
+                                    machineID = nextCell.getStringCellValue();
+                                    break;
+                                case 14:
+                                    partnerName = nextCell.getStringCellValue();
+                                    break;
+                            }
                         }
-                        break;
-                        case 17:
-                            String machineid = nextCell.getStringCellValue();
-                            System.out.println(machineid);
-                            break;
-                        case 14:
-                            String partnername = nextCell.getStringCellValue();
-                            System.out.println(partnername);
-                            break;
+                        if (invoiceNumber != 0) {
+                            ImportDatas element = new ImportDatas(invoiceNumber, machineID, partnerName);
+                            machines.add(element);
+                        }
+
+                    } catch (Exception e) {
+                        invoiceNumber = 0;
                     }
                 }
-
-                count++;
             }
+
             workbook.close();
 
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(CiiService.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Hiba1");
         } catch (IOException ex) {
-            Logger.getLogger(CiiService.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Hiba2");
         }
     }
 }
