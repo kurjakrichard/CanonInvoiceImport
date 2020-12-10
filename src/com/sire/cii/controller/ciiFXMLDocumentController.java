@@ -11,7 +11,10 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 /**
  *
@@ -20,17 +23,30 @@ import javafx.scene.control.Label;
 public class ciiFXMLDocumentController implements Initializable {
 
     @FXML
-    private Label label;
+    private Button exportbutton;
+    @FXML
+    private DatePicker inpurInvoiceDate;
+    @FXML
+    private DatePicker inputsettlingDate;
+    @FXML
+    private DatePicker inputVATDate;
+    @FXML
+    private DatePicker inputDueDate;
+    @FXML
+    private TextField inputNotes;
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         CiiService service = new CiiService();
+    }
+
+    @FXML
+    private void fillDates(ActionEvent event) {
     }
 
 }

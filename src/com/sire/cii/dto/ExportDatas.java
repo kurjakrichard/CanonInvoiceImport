@@ -18,7 +18,7 @@ public class ExportDatas {
     private String settlingDate;
     private String VATDate;
     private String dueDate;
-    private String dookDate;
+    private String bookingDate;
     private double netto;
     private double bruttoSumInvoice;
     private String costCenter;
@@ -32,13 +32,13 @@ public class ExportDatas {
     public ExportDatas() {
     }
 
-    public ExportDatas(String invoiceNumber, String invoiceDate, String settlingDate, String VATDate, String dueDate, String dookDate, double netto, double bruttoSumInvoice, String costCenter, String orderNumber, String employee, String machineNumber, String projekt, String notes) {
+    public ExportDatas(String invoiceNumber, String invoiceDate, String settlingDate, String VATDate, String dueDate, String bookingDate, double netto, double bruttoSumInvoice, String costCenter, String orderNumber, String employee, String machineNumber, String projekt, String notes) {
         this.invoiceNumber = invoiceNumber;
         this.invoiceDate = invoiceDate;
         this.settlingDate = settlingDate;
         this.VATDate = VATDate;
         this.dueDate = dueDate;
-        this.dookDate = dookDate;
+        this.bookingDate = bookingDate;
         this.netto = netto;
         this.bruttoSumInvoice = bruttoSumInvoice;
         this.costCenter = costCenter;
@@ -105,12 +105,12 @@ public class ExportDatas {
         this.dueDate = dueDate;
     }
 
-    public String getDookDate() {
-        return dookDate;
+    public String getBookingDate() {
+        return bookingDate;
     }
 
-    public void setDookDate(String dookDate) {
-        this.dookDate = dookDate;
+    public void setBookingDate(String bookingDate) {
+        this.bookingDate = bookingDate;
     }
 
     public double getNetto() {

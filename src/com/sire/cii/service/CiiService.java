@@ -80,9 +80,10 @@ public final class CiiService {
             }
 
             workbook.close();
+            System.out.println(machines.size());
 
         } catch (FileNotFoundException ex) {
-            System.out.println("Hiba1");
+            System.out.println("Hiányzik a fájl");
         } catch (IOException ex) {
             System.out.println("Hiba2");
         }
