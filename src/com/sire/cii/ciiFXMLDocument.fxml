@@ -10,63 +10,79 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="308.0" prefWidth="464.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sire.cii.controller.ciiFXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="513.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sire.cii.controller.ciiFXMLDocumentController">
     <children>
-        <Button id="exportButtun" fx:id="exportbutton" layoutX="190.0" layoutY="232.0" onAction="#handleButtonAction" text="Exportálás" />
-      <HBox layoutX="1.0" layoutY="34.0" prefHeight="154.0" prefWidth="464.0">
+      <Button id="importButtun" fx:id="importButtun" layoutX="513.0" layoutY="55.0" onAction="#handleImportButtonAction" text="Importálás" />
+        <Button id="exportButtun" fx:id="exportbutton" layoutX="514.0" layoutY="99.0" onAction="#handleExportButtonAction" text="Exportálás" />
+      <HBox layoutX="1.0" layoutY="34.0" prefHeight="182.0" prefWidth="508.0">
          <children>
-            <VBox prefHeight="154.0" prefWidth="215.0">
+            <VBox prefHeight="182.0" prefWidth="249.0">
                <children>
-                    <Label minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="222.0" text="Számla kelte:">
+                    <Label minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="262.0" text="Számla kelte:">
                      <font>
                         <Font size="15.0" />
                      </font>
                      <VBox.margin>
-                        <Insets />
+                        <Insets bottom="5.0" />
                      </VBox.margin>
                      <padding>
-                        <Insets left="10.0" />
+                        <Insets left="20.0" />
                      </padding>
                   </Label>
-                  <Label minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="223.0" text="Teljesítés dátuma:">
+                  <Label minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="262.0" text="Teljesítés dátuma:">
                      <font>
                         <Font size="15.0" />
                      </font>
                      <padding>
-                        <Insets left="10.0" />
+                        <Insets left="20.0" />
                      </padding>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
                   </Label>
-                  <Label minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="217.0" text="Áfa teljesítés dátuma:">
+                  <Label minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="262.0" text="Áfa teljesítés dátuma:">
                      <font>
                         <Font size="15.0" />
                      </font>
                      <padding>
-                        <Insets left="10.0" />
+                        <Insets left="20.0" />
                      </padding>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
                   </Label>
-                  <Label minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="222.0" text="Fizetési határidő:">
+                  <Label minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="262.0" text="Fizetési határidő:">
                      <font>
                         <Font size="15.0" />
                      </font>
                      <padding>
-                        <Insets left="10.0" />
+                        <Insets left="20.0" />
                      </padding>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
                   </Label>
-                  <Label minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="236.0" text="Számviteli teljesítés dátuma:">
+                  <Label minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="262.0" text="Számviteli teljesítés dátuma:">
                      <font>
                         <Font size="15.0" />
                      </font>
                      <padding>
-                        <Insets left="10.0" />
+                        <Insets left="20.0" />
                      </padding>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
                   </Label>
-                  <Label minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="225.0" text="Megjegyzés:">
+                  <Label minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="262.0" text="Megjegyzés:">
                      <font>
                         <Font size="15.0" />
                      </font>
                      <padding>
-                        <Insets left="10.0" />
+                        <Insets left="20.0" />
                      </padding>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
                   </Label>
                </children>
             </VBox>
@@ -76,7 +92,7 @@
                   <DatePicker id="inputsettlingDate" fx:id="inputsettlingDate" onAction="#fillDates" prefHeight="24.0" prefWidth="224.0" />
                   <DatePicker id="inpurtVATDate" fx:id="inputVATDate" prefHeight="24.0" prefWidth="224.0" />
                   <DatePicker id="inputDueDate" fx:id="inputDueDate" prefHeight="24.0" prefWidth="224.0" />
-                  <DatePicker prefHeight="24.0" prefWidth="224.0" />
+                  <DatePicker id="inputBookingDate" fx:id="inputBookingDate" prefHeight="24.0" prefWidth="224.0" />
                   <TextField id="inputNotes" fx:id="inputNotes" />
                </children>
             </VBox>

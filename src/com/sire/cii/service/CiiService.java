@@ -5,6 +5,7 @@
  */
 package com.sire.cii.service;
 
+import com.sire.cii.dto.ExportDatas;
 import com.sire.cii.dto.ImportDatas;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -21,13 +22,9 @@ import org.apache.poi.xssf.usermodel.*;
  */
 public final class CiiService {
 
-//<editor-fold defaultstate="collapsed" desc="Class variables">
-    String excelFilePath = "iranyitoszam.xlsx";
-    List<ImportDatas> machines;
-//</editor-fold>
+    private List<ExportDatas> items;
 
     public CiiService() {
-        excelToList(excelFilePath);
     }
 
     /**
@@ -35,8 +32,8 @@ public final class CiiService {
      *
      * @param excelFilePath
      */
-    private void excelToList(String excelFilePath) {
-        machines = new ArrayList<>();
+    public List<ImportDatas> excelToList(String excelFilePath) {
+        List<ImportDatas> machines = new ArrayList<>();
         double invoiceNumber = 0;
         String machineID = null;
         String partnerName = null;
@@ -87,5 +84,26 @@ public final class CiiService {
         } catch (IOException ex) {
             System.out.println("Hiba2");
         }
+        return machines;
+    }
+
+    public void printList(List<ImportDatas> machines) {
+        for (ImportDatas machine : machines) {
+            System.out.println(machine.toString());
+        }
+    }
+
+    public List<ExportDatas> createItemList(ExportDatas item, List<ImportDatas> machines) {
+        items = new ArrayList<>();
+        String text = item.getNotes();
+        for (ImportDatas machine : machines) {
+            item.setInvoiceNumber(machine.getInvoiceNumber());
+            item.setMachineID(machine.getMachineID());
+            item.setNotes(text + " " + machine.getPartnerName());
+            System.out.println(item.toString());
+            items.add(item);
+        }
+
+        return items;
     }
 }

@@ -10,10 +10,9 @@ package com.sire.cii.dto;
  * @author balza
  */
 public class ExportDatas {
-    
+
 //<editor-fold defaultstate="collapsed" desc="Class variables">
-    private int id;
-    private String invoiceNumber;
+    private double invoiceNumber;
     private String invoiceDate;
     private String settlingDate;
     private String VATDate;
@@ -24,7 +23,7 @@ public class ExportDatas {
     private String costCenter;
     private String orderNumber;
     private String employee;
-    private String machineNumber;
+    private String machineID;
     private String projekt;
     private String notes;
 //</editor-fold>
@@ -32,20 +31,20 @@ public class ExportDatas {
     public ExportDatas() {
     }
 
-    public ExportDatas(String invoiceNumber, String invoiceDate, String settlingDate, String VATDate, String dueDate, String bookingDate, double netto, double bruttoSumInvoice, String costCenter, String orderNumber, String employee, String machineNumber, String projekt, String notes) {
-        this.invoiceNumber = invoiceNumber;
+    public ExportDatas(String invoiceDate, String settlingDate, String VATDate, String dueDate, String bookingDate, String notes) {
+        this.invoiceNumber = 0;
         this.invoiceDate = invoiceDate;
         this.settlingDate = settlingDate;
         this.VATDate = VATDate;
         this.dueDate = dueDate;
         this.bookingDate = bookingDate;
-        this.netto = netto;
-        this.bruttoSumInvoice = bruttoSumInvoice;
-        this.costCenter = costCenter;
-        this.orderNumber = orderNumber;
-        this.employee = employee;
-        this.machineNumber = machineNumber;
-        this.projekt = projekt;
+        this.netto = 0;
+        this.bruttoSumInvoice = 0;
+        this.costCenter = "";
+        this.orderNumber = "";
+        this.employee = "";
+        this.machineID = "";
+        this.projekt = "";
         this.notes = notes;
     }
 
@@ -57,19 +56,11 @@ public class ExportDatas {
         this.notes = notes;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getInvoiceNumber() {
+    public double getInvoiceNumber() {
         return invoiceNumber;
     }
 
-    public void setInvoiceNumber(String invoiceNumber) {
+    public void setInvoiceNumber(double invoiceNumber) {
         this.invoiceNumber = invoiceNumber;
     }
 
@@ -153,12 +144,12 @@ public class ExportDatas {
         this.employee = employee;
     }
 
-    public String getMachineNumber() {
-        return machineNumber;
+    public String getMachineID() {
+        return machineID;
     }
 
-    public void setMachineNumber(String machineNumber) {
-        this.machineNumber = machineNumber;
+    public void setMachineID(String machineID) {
+        this.machineID = machineID;
     }
 
     public String getProjekt() {
@@ -168,7 +159,9 @@ public class ExportDatas {
     public void setProjekt(String projekt) {
         this.projekt = projekt;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return "ExportDatas{invoiceNumber=" + invoiceNumber + ", invoiceDate=" + invoiceDate + ", settlingDate=" + settlingDate + ", VATDate=" + VATDate + ", dueDate=" + dueDate + ", bookingDate=" + bookingDate + ", notes="  + notes + '}';
+    }
 }
