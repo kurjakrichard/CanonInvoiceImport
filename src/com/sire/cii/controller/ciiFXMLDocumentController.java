@@ -55,6 +55,7 @@ public class ciiFXMLDocumentController implements Initializable {
     String VATDate;
     String dueDate;
     String bookingDate;
+    double netto;
     String notes;
 
     @Override
@@ -79,14 +80,20 @@ public class ciiFXMLDocumentController implements Initializable {
             notes = inputNotes.getText();
             machines = ciiService.excelToList(EXCELFILEPATH);
         } catch (Exception e) {
-            alert(Alert.AlertType.ERROR, "Kérlek adj meg minden adatot!");
+            alert(Alert.AlertType.ERROR, "Kérlek, adj meg minden adatot!");
         }
     }
 
     @FXML
     private void handleExportButtonAction(ActionEvent event) {
-        item = new ExportDatas(invoiceDate, settlingDate, VATDate, dueDate, bookingDate, notes);
-        items = ciiService.createItemList(item, machines);
+        try {
+
+            item = new ExportDatas(invoiceDate, settlingDate, VATDate, dueDate, bookingDate, notes);
+            items = ciiService.createItemList(item, machines);
+            ciiService.bruttoToImportList(items);
+        } catch (Exception e) {
+            alert(Alert.AlertType.ERROR, "Kérlek, előbb az importot futtasd le!");
+        }
     }
 
     private void alert(Alert.AlertType alertType, String message) {

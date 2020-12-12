@@ -11,8 +11,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.*;
 
@@ -35,6 +37,7 @@ public final class CiiService {
     public List<ImportDatas> excelToList(String excelFilePath) {
         List<ImportDatas> machines = new ArrayList<>();
         double invoiceNumber = 0;
+        double netto = 0;
         String machineID = null;
         String partnerName = null;
         try {
@@ -57,6 +60,9 @@ public final class CiiService {
                                 case 0:
                                     invoiceNumber = nextCell.getNumericCellValue();
                                     break;
+                                case 11:
+                                    netto = nextCell.getNumericCellValue();
+                                    break;
                                 case 17:
                                     machineID = nextCell.getStringCellValue();
                                     break;
@@ -65,20 +71,18 @@ public final class CiiService {
                                     break;
                             }
                         }
-                        if (invoiceNumber != 0) {
-                            ImportDatas element = new ImportDatas(invoiceNumber, machineID, partnerName);
+                        if (invoiceNumber != 0 && netto != 0) {
+                            ImportDatas element = new ImportDatas(invoiceNumber, netto, machineID, partnerName);
                             machines.add(element);
+                            invoiceNumber = 0;
+                            netto = 0;
                         }
-
                     } catch (Exception e) {
                         invoiceNumber = 0;
                     }
                 }
             }
-
             workbook.close();
-            System.out.println(machines.size());
-
         } catch (FileNotFoundException ex) {
             System.out.println("Hiányzik a fájl");
         } catch (IOException ex) {
@@ -87,23 +91,47 @@ public final class CiiService {
         return machines;
     }
 
-    public void printList(List<ImportDatas> machines) {
+    /**
+     * Add brutto in invoice items.
+     *
+     * @param excelFilePath
+     */
+    public List<ExportDatas> bruttoToImportList(List<ExportDatas> items) {
+
+        Map<Double, Double> invoiceNumbers = new HashMap<>();
+
+        for (ExportDatas item : items) {
+            invoiceNumbers.put(item.getInvoiceNumber(), invoiceNumbers.get(item.getInvoiceNumber() + item.getNetto()));
+            System.out.println(invoiceNumbers.toString());
+        }
+
+        return items;
+    }
+
+    public void printImportList(List<ImportDatas> machines) {
         for (ImportDatas machine : machines) {
             System.out.println(machine.toString());
         }
     }
 
+    public void printExportList(List<ExportDatas> items) {
+        for (ExportDatas item : items) {
+            System.out.println(item.toString());
+        }
+    }
+
     public List<ExportDatas> createItemList(ExportDatas item, List<ImportDatas> machines) {
         items = new ArrayList<>();
+        ExportDatas element;
         String text = item.getNotes();
         for (ImportDatas machine : machines) {
-            item.setInvoiceNumber(machine.getInvoiceNumber());
-            item.setMachineID(machine.getMachineID());
-            item.setNotes(text + " " + machine.getPartnerName());
-            System.out.println(item.toString());
-            items.add(item);
+            element = new ExportDatas(item.getInvoiceDate(), item.getSettlingDate(), item.getVATDate(), item.getDueDate(), item.getBookingDate(), item.getNotes());
+            element.setInvoiceNumber(machine.getInvoiceNumber());
+            element.setNetto(machine.getNetto());
+            element.setMachineID(machine.getMachineID());
+            element.setNotes(text + " " + machine.getPartnerName());
+            items.add(element);
         }
-
         return items;
     }
 }

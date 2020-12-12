@@ -68,40 +68,20 @@ public class ExportDatas {
         return invoiceDate;
     }
 
-    public void setInvoiceDate(String invoiceDate) {
-        this.invoiceDate = invoiceDate;
-    }
-
     public String getSettlingDate() {
         return settlingDate;
-    }
-
-    public void setSettlingDate(String settlingDate) {
-        this.settlingDate = settlingDate;
     }
 
     public String getVATDate() {
         return VATDate;
     }
 
-    public void setVATDate(String VATDate) {
-        this.VATDate = VATDate;
-    }
-
     public String getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(String dueDate) {
-        this.dueDate = dueDate;
-    }
-
     public String getBookingDate() {
         return bookingDate;
-    }
-
-    public void setBookingDate(String bookingDate) {
-        this.bookingDate = bookingDate;
     }
 
     public double getNetto() {
@@ -124,24 +104,12 @@ public class ExportDatas {
         return costCenter;
     }
 
-    public void setCostCenter(String costCenter) {
-        this.costCenter = costCenter;
-    }
-
     public String getOrderNumber() {
         return orderNumber;
     }
 
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
-    }
-
     public String getEmployee() {
         return employee;
-    }
-
-    public void setEmployee(String employee) {
-        this.employee = employee;
     }
 
     public String getMachineID() {
@@ -156,12 +124,9 @@ public class ExportDatas {
         return projekt;
     }
 
-    public void setProjekt(String projekt) {
-        this.projekt = projekt;
-    }
-
     @Override
     public String toString() {
-        return "ExportDatas{invoiceNumber=" + invoiceNumber + ", invoiceDate=" + invoiceDate + ", settlingDate=" + settlingDate + ", VATDate=" + VATDate + ", dueDate=" + dueDate + ", bookingDate=" + bookingDate + ", notes="  + notes + '}';
+        return "ExportDatas{" + "invoiceNumber=" + invoiceNumber + ", invoiceDate=" + invoiceDate + ", settlingDate=" + settlingDate + ", VATDate=" + VATDate + ", dueDate=" + dueDate + ", netto=" + netto + ", bruttoSumInvoice=" + bruttoSumInvoice + ", machineID=" + machineID + ", notes=" + notes + '}';
     }
+
 }

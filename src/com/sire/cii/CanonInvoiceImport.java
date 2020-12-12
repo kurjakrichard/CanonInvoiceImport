@@ -5,7 +5,6 @@
  */
 package com.sire.cii;
 
-import com.sire.cii.service.CiiService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
