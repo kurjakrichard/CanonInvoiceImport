@@ -46,7 +46,9 @@ public class ciiFXMLDocumentController implements Initializable {
 //</editor-fold>
 
     private CiiService ciiService;
-    private final String EXCELFILEPATH = "import.xlsx";
+    private final String USERHOME = System.getProperty("user.home");
+    private final String IMPORTFILEPATH = USERHOME +"\\Desktop\\import.xlsx";
+    private final String EXPORTFILEPATH = USERHOME + "\\Desktop\\export.xlsx";
     private List<ImportDatas> machines;
     private ExportDatas item;
     private List<ExportDatas> items;
@@ -78,7 +80,9 @@ public class ciiFXMLDocumentController implements Initializable {
             dueDate = inputDueDate.getValue().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
             bookingDate = inputBookingDate.getValue().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
             notes = inputNotes.getText();
-            machines = ciiService.excelToList(EXCELFILEPATH);
+            System.out.println(IMPORTFILEPATH);
+            machines = ciiService.excelToList(IMPORTFILEPATH);
+            ciiService.bruttoToImportList(machines);
         } catch (Exception e) {
             alert(Alert.AlertType.ERROR, "Kérlek, adj meg minden adatot!");
         }
@@ -90,7 +94,8 @@ public class ciiFXMLDocumentController implements Initializable {
 
             item = new ExportDatas(invoiceDate, settlingDate, VATDate, dueDate, bookingDate, notes);
             items = ciiService.createItemList(item, machines);
-            ciiService.bruttoToImportList(items);
+            ciiService.listToExcel(EXPORTFILEPATH, items);
+            //ciiService.printExportList(items);
         } catch (Exception e) {
             alert(Alert.AlertType.ERROR, "Kérlek, előbb az importot futtasd le!");
         }

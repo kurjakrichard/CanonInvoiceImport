@@ -21,6 +21,7 @@ public class CanonInvoiceImport extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("ciiFXMLDocument.fxml"));
         stage.setTitle("Canon számla import");
+        stage.setResizable(false);
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();

@@ -7,8 +7,10 @@ package com.sire.cii.service;
 
 import com.sire.cii.dto.ExportDatas;
 import com.sire.cii.dto.ImportDatas;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +27,7 @@ import org.apache.poi.xssf.usermodel.*;
 public final class CiiService {
 
     private List<ExportDatas> items;
+    private String[] columnNames = {"SzamlaSzam", "Kelte", "Teljesites", "AFADatum", "Hatarido", "Konyveles", "Netto", "BrutoVegosszeg", "Ktgh", "Rendeles", "Dolgozó", "Gep", "Projekt", "Megjegyzes"};
 
     public CiiService() {
     }
@@ -32,16 +35,20 @@ public final class CiiService {
     /**
      * Import Canon invoices from excel file.
      *
-     * @param excelFilePath
+     * @param importFilePath
+     * @return
+     * @return
+     * @return
      */
-    public List<ImportDatas> excelToList(String excelFilePath) {
+    public List<ImportDatas> excelToList(String importFilePath) {
         List<ImportDatas> machines = new ArrayList<>();
         double invoiceNumber = 0;
         double netto = 0;
+        double brutto = 0;
         String machineID = null;
         String partnerName = null;
         try {
-            FileInputStream inputStream = new FileInputStream(excelFilePath);
+            FileInputStream inputStream = new FileInputStream(importFilePath);
             Workbook workbook = new XSSFWorkbook(inputStream);
             Iterator<Sheet> sheetIterator = workbook.iterator();
             while (sheetIterator.hasNext()) {
@@ -63,6 +70,9 @@ public final class CiiService {
                                 case 11:
                                     netto = nextCell.getNumericCellValue();
                                     break;
+                                case 13:
+                                    brutto = nextCell.getNumericCellValue();
+                                    break;
                                 case 17:
                                     machineID = nextCell.getStringCellValue();
                                     break;
@@ -72,7 +82,7 @@ public final class CiiService {
                             }
                         }
                         if (invoiceNumber != 0 && netto != 0) {
-                            ImportDatas element = new ImportDatas(invoiceNumber, netto, machineID, partnerName);
+                            ImportDatas element = new ImportDatas(invoiceNumber, netto, brutto, machineID, partnerName);
                             machines.add(element);
                             invoiceNumber = 0;
                             netto = 0;
@@ -96,16 +106,23 @@ public final class CiiService {
      *
      * @param excelFilePath
      */
-    public List<ExportDatas> bruttoToImportList(List<ExportDatas> items) {
+    public List<ImportDatas> bruttoToImportList(List<ImportDatas> machines) {
 
         Map<Double, Double> invoiceNumbers = new HashMap<>();
 
-        for (ExportDatas item : items) {
-            invoiceNumbers.put(item.getInvoiceNumber(), invoiceNumbers.get(item.getInvoiceNumber() + item.getNetto()));
-            System.out.println(invoiceNumbers.toString());
+        for (ImportDatas machine : machines) {
+            double invoiceNumber = machine.getInvoiceNumber();
+            double brutto = machine.getBrutto();
+            invoiceNumbers.putIfAbsent(invoiceNumber, 0.0);
+            double original = invoiceNumbers.get(machine.getInvoiceNumber());
+            invoiceNumbers.put(invoiceNumber, original + brutto);
         }
 
-        return items;
+        for (ImportDatas machine : machines) {
+            machine.setBrutto(invoiceNumbers.get(machine.getInvoiceNumber()));
+        }
+
+        return machines;
     }
 
     public void printImportList(List<ImportDatas> machines) {
@@ -128,10 +145,53 @@ public final class CiiService {
             element = new ExportDatas(item.getInvoiceDate(), item.getSettlingDate(), item.getVATDate(), item.getDueDate(), item.getBookingDate(), item.getNotes());
             element.setInvoiceNumber(machine.getInvoiceNumber());
             element.setNetto(machine.getNetto());
+            element.setBruttoSumInvoice(machine.getBrutto());
             element.setMachineID(machine.getMachineID());
             element.setNotes(text + " " + machine.getPartnerName());
             items.add(element);
         }
         return items;
     }
+
+    /**
+     * Export Canon invoices from excel file.
+     *
+     * @param exportFilePath
+     *
+     */
+    public void listToExcel(String exportFilePath, List<ExportDatas> items) throws FileNotFoundException, IOException {
+        FileOutputStream out = new FileOutputStream(new File(exportFilePath));
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet();
+//I am creating and adding list just for illustration purpose only
+        Row row = sheet.createRow(0);
+        for (int i = 0; i < columnNames.length; i++) {
+            row.createCell(i).setCellValue(columnNames[i]);
+        }
+
+        int rowNum = 1;
+        for (ExportDatas item : items) {
+            row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(item.getInvoiceNumber());
+            row.createCell(1).setCellValue(item.getInvoiceDate());
+            row.createCell(2).setCellValue(item.getSettlingDate());
+            row.createCell(3).setCellValue(item.getVATDate());
+            row.createCell(4).setCellValue(item.getDueDate());
+            row.createCell(5).setCellValue(item.getBookingDate());
+            row.createCell(6).setCellValue(item.getNetto());
+            row.createCell(7).setCellValue(item.getBruttoSumInvoice());
+            row.createCell(8).setCellValue(item.getCostCenter());
+            row.createCell(9).setCellValue(item.getOrderNumber());
+            row.createCell(10).setCellValue(item.getEmployee());
+            row.createCell(11).setCellValue(item.getMachineID());
+            row.createCell(12).setCellValue(item.getProjekt());
+            row.createCell(13).setCellValue(item.getNotes());            
+        }
+
+        workbook.write(out);
+        out.close();
+        workbook.close();
+
+    }
+
 }

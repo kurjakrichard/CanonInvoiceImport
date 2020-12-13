@@ -126,7 +126,6 @@ public class ExportDatas {
 
     @Override
     public String toString() {
-        return "ExportDatas{" + "invoiceNumber=" + invoiceNumber + ", invoiceDate=" + invoiceDate + ", settlingDate=" + settlingDate + ", VATDate=" + VATDate + ", dueDate=" + dueDate + ", netto=" + netto + ", bruttoSumInvoice=" + bruttoSumInvoice + ", machineID=" + machineID + ", notes=" + notes + '}';
+        return "ExportDatas{" + "invoiceNumber=" + invoiceNumber + ", invoiceDate=" + invoiceDate + ", settlingDate=" + settlingDate + ", VATDate=" + VATDate + ", dueDate=" + dueDate + ", bookingDate=" + bookingDate + ", netto=" + netto + ", bruttoSumInvoice=" + bruttoSumInvoice + ", machineID=" + machineID + ", notes=" + notes + '}';
     }
-
 }

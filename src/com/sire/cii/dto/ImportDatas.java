@@ -14,21 +14,21 @@ public class ImportDatas {
 //<editor-fold defaultstate="collapsed" desc="Class variables">
     private double invoiceNumber;
     private double netto;
+    private double brutto;
     private String machineID;
     private String partnerName;
-    private double bruttoSumInvoice;
 //</editor-fold>
 
     public ImportDatas() {
     }
 
-    public ImportDatas(double invoiceNumber, double netto, String machineID, String partnerName) {
+    public ImportDatas(double invoiceNumber, double netto, double brutto, String machineID, String partnerName) {
         this.invoiceNumber = invoiceNumber;
         this.netto = netto;
+        this.brutto = brutto;
         this.machineID = machineID;
         this.partnerName = partnerName;
     }
-
 
     public double getInvoiceNumber() {
         return invoiceNumber;
@@ -36,6 +36,14 @@ public class ImportDatas {
 
     public double getNetto() {
         return netto;
+    }
+
+    public double getBrutto() {
+        return brutto;
+    }
+
+    public void setBrutto(double brutto) {
+        this.brutto = brutto;
     }
     
     public String getMachineID() {
@@ -46,19 +54,8 @@ public class ImportDatas {
         return partnerName;
     }
 
-    public double getBruttoSumInvoice() {
-        return bruttoSumInvoice;
-    }
-
-    public void setBruttoSumInvoice(double bruttoSumInvoice) {
-        this.bruttoSumInvoice = bruttoSumInvoice;
-    }
-
     @Override
     public String toString() {
-        return "ImportDatas{" + "invoiceNumber=" + invoiceNumber + ", netto=" + netto + ", machineID=" + machineID + ", partnerName=" + partnerName + ", bruttoSumInvoice=" + bruttoSumInvoice + '}';
+        return "ImportDatas{" + "invoiceNumber=" + invoiceNumber + ", netto=" + netto + ", brutto=" + brutto + ", machineID=" + machineID + ", partnerName=" + partnerName + '}';
     }
-
-  
-
 }

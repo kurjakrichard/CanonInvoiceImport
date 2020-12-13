@@ -10,10 +10,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="513.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sire.cii.controller.ciiFXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="245.0" prefWidth="622.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sire.cii.controller.ciiFXMLDocumentController">
     <children>
+      <Label alignment="CENTER" prefHeight="40.0" prefWidth="622.0" text="Canon számla importáló">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
       <Button id="importButtun" fx:id="importButtun" layoutX="513.0" layoutY="55.0" onAction="#handleImportButtonAction" text="Importálás" />
-        <Button id="exportButtun" fx:id="exportbutton" layoutX="514.0" layoutY="99.0" onAction="#handleExportButtonAction" text="Exportálás" />
+        <Button id="exportButtun" fx:id="exportbutton" layoutX="514.0" layoutY="125.0" onAction="#handleExportButtonAction" text="Exportálás" />
       <HBox layoutX="1.0" layoutY="34.0" prefHeight="182.0" prefWidth="508.0">
          <children>
             <VBox prefHeight="182.0" prefWidth="249.0">
@@ -23,7 +28,7 @@
                         <Font size="15.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="5.0" />
+                        <Insets top="10.0" />
                      </VBox.margin>
                      <padding>
                         <Insets left="20.0" />
@@ -37,7 +42,7 @@
                         <Insets left="20.0" />
                      </padding>
                      <VBox.margin>
-                        <Insets bottom="5.0" />
+                        <Insets />
                      </VBox.margin>
                   </Label>
                   <Label minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="262.0" text="Áfa teljesítés dátuma:">
@@ -48,7 +53,7 @@
                         <Insets left="20.0" />
                      </padding>
                      <VBox.margin>
-                        <Insets bottom="5.0" />
+                        <Insets />
                      </VBox.margin>
                   </Label>
                   <Label minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="262.0" text="Fizetési határidő:">
@@ -59,7 +64,7 @@
                         <Insets left="20.0" />
                      </padding>
                      <VBox.margin>
-                        <Insets bottom="5.0" />
+                        <Insets />
                      </VBox.margin>
                   </Label>
                   <Label minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="262.0" text="Számviteli teljesítés dátuma:">
@@ -70,7 +75,7 @@
                         <Insets left="20.0" />
                      </padding>
                      <VBox.margin>
-                        <Insets bottom="5.0" />
+                        <Insets />
                      </VBox.margin>
                   </Label>
                   <Label minHeight="25.0" minWidth="69" prefHeight="26.0" prefWidth="262.0" text="Megjegyzés:">
@@ -81,7 +86,7 @@
                         <Insets left="20.0" />
                      </padding>
                      <VBox.margin>
-                        <Insets bottom="5.0" />
+                        <Insets />
                      </VBox.margin>
                   </Label>
                </children>
@@ -95,6 +100,9 @@
                   <DatePicker id="inputBookingDate" fx:id="inputBookingDate" prefHeight="24.0" prefWidth="224.0" />
                   <TextField id="inputNotes" fx:id="inputNotes" />
                </children>
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
             </VBox>
          </children>
       </HBox>
