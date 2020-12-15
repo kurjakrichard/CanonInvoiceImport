@@ -94,7 +94,7 @@
             <VBox prefHeight="134.0" prefWidth="221.0">
                <children>
                   <DatePicker id="inpurInvoiceDate" fx:id="inpurInvoiceDate" prefHeight="24.0" prefWidth="224.0" />
-                  <DatePicker id="inputsettlingDate" fx:id="inputsettlingDate" onAction="#fillDates" prefHeight="24.0" prefWidth="224.0" />
+                  <DatePicker id="inputsettlingDate" fx:id="inputsettlingDate" prefHeight="24.0" prefWidth="224.0" />
                   <DatePicker id="inpurtVATDate" fx:id="inputVATDate" prefHeight="24.0" prefWidth="224.0" />
                   <DatePicker id="inputDueDate" fx:id="inputDueDate" prefHeight="24.0" prefWidth="224.0" />
                   <DatePicker id="inputBookingDate" fx:id="inputBookingDate" prefHeight="24.0" prefWidth="224.0" />

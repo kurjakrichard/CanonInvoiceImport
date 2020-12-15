@@ -117,11 +117,9 @@ public final class CiiService {
             double original = invoiceNumbers.get(machine.getInvoiceNumber());
             invoiceNumbers.put(invoiceNumber, original + brutto);
         }
-
         for (ImportDatas machine : machines) {
             machine.setBrutto(invoiceNumbers.get(machine.getInvoiceNumber()));
         }
-
         return machines;
     }
 
@@ -163,12 +161,10 @@ public final class CiiService {
         FileOutputStream out = new FileOutputStream(new File(exportFilePath));
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet();
-//I am creating and adding list just for illustration purpose only
         Row row = sheet.createRow(0);
         for (int i = 0; i < columnNames.length; i++) {
             row.createCell(i).setCellValue(columnNames[i]);
         }
-
         int rowNum = 1;
         for (ExportDatas item : items) {
             row = sheet.createRow(rowNum++);
@@ -187,11 +183,8 @@ public final class CiiService {
             row.createCell(12).setCellValue(item.getProjekt());
             row.createCell(13).setCellValue(item.getNotes());            
         }
-
         workbook.write(out);
         out.close();
         workbook.close();
-
     }
-
 }
