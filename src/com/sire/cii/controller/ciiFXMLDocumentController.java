@@ -47,6 +47,8 @@ public class ciiFXMLDocumentController implements Initializable {
 
     private CiiService ciiService;
     private final String USERHOME = System.getProperty("user.home");
+   // private final String IMPORTFILEPATH = USERHOME +"\\OneDrive\\Asztali gép\\import.xlsx";
+    //private final String EXPORTFILEPATH = USERHOME + "\\OneDrive\\Asztali gép\\export.xlsx";    
     private final String IMPORTFILEPATH = USERHOME +"\\Desktop\\import.xlsx";
     private final String EXPORTFILEPATH = USERHOME + "\\Desktop\\export.xlsx";
     private List<ImportDatas> machines;

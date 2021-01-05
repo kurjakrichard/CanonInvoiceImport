@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javafx.scene.control.Alert;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.*;
 
@@ -28,6 +29,7 @@ public final class CiiService {
 
     private List<ExportDatas> items;
     private String[] columnNames = {"SzamlaSzam", "Kelte", "Teljesites", "AFADatum", "Hatarido", "Konyveles", "Netto", "BrutoVegosszeg", "Ktgh", "Rendeles", "Dolgozó", "Gep", "Projekt", "Megjegyzes"};
+    private String serviceText = "Szervíz példányszám ";
 
     public CiiService() {
     }
@@ -73,28 +75,34 @@ public final class CiiService {
                                 case 13:
                                     brutto = nextCell.getNumericCellValue();
                                     break;
-                                case 17:
-                                    machineID = nextCell.getStringCellValue();
-                                    break;
                                 case 14:
                                     partnerName = nextCell.getStringCellValue();
                                     break;
+                                case 17:
+                                    try {
+                                    machineID = String.valueOf((int) nextCell.getNumericCellValue());
+                                } catch (Exception e) {
+                                    machineID = nextCell.getStringCellValue();
+                                }
+                                break;
                             }
                         }
-                        if (invoiceNumber != 0 && netto != 0) {
+                        if (invoiceNumber != 0 && netto != 0 && machineID != null) {
                             ImportDatas element = new ImportDatas(invoiceNumber, netto, brutto, machineID, partnerName);
                             machines.add(element);
-                            invoiceNumber = 0;
-                            netto = 0;
                         }
-                    } catch (Exception e) {
                         invoiceNumber = 0;
+                        netto = 0;
+                    } catch (Exception e) {
                     }
                 }
             }
             workbook.close();
         } catch (FileNotFoundException ex) {
-            System.out.println("Hiányzik a fájl");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Hiányzik a fájl!");
+            alert.showAndWait();
         } catch (IOException ex) {
             System.out.println("Hiba2");
         }
@@ -145,7 +153,7 @@ public final class CiiService {
             element.setNetto(machine.getNetto());
             element.setBruttoSumInvoice(machine.getBrutto());
             element.setMachineID(machine.getMachineID());
-            element.setNotes(text + " " + machine.getPartnerName());
+            element.setNotes(serviceText + text + " " + machine.getPartnerName());
             items.add(element);
         }
         return items;
@@ -161,6 +169,7 @@ public final class CiiService {
         FileOutputStream out = new FileOutputStream(new File(exportFilePath));
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet();
+        workbook.setSheetName(0, "Munka1");
         Row row = sheet.createRow(0);
         for (int i = 0; i < columnNames.length; i++) {
             row.createCell(i).setCellValue(columnNames[i]);
@@ -181,7 +190,7 @@ public final class CiiService {
             row.createCell(10).setCellValue(item.getEmployee());
             row.createCell(11).setCellValue(item.getMachineID());
             row.createCell(12).setCellValue(item.getProjekt());
-            row.createCell(13).setCellValue(item.getNotes());            
+            row.createCell(13).setCellValue(item.getNotes());
         }
         workbook.write(out);
         out.close();
