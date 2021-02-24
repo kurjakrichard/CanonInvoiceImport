@@ -28,8 +28,8 @@ import org.apache.poi.xssf.usermodel.*;
 public final class CiiService {
 
     private List<ExportDatas> items;
-    private String[] columnNames = {"SzamlaSzam", "Kelte", "Teljesites", "AFADatum", "Hatarido", "Konyveles", "Netto", "BrutoVegosszeg", "Ktgh", "Rendeles", "Dolgozó", "Gep", "Projekt", "Megjegyzes"};
-    private String serviceText = "Szervíz példányszám ";
+    private final String[] columnNames = {"SzamlaSzam", "Kelte", "Teljesites", "AFADatum", "Hatarido", "Konyveles", "Netto", "BrutoVegosszeg", "Ktgh", "Rendeles", "Dolgozó", "Gep", "Projekt", "Megjegyzes"};
+    private final String serviceText = "Szervíz példányszám ";
 
     public CiiService() {
     }
@@ -38,8 +38,6 @@ public final class CiiService {
      * Import Canon invoices from excel file.
      *
      * @param importFilePath
-     * @return
-     * @return
      * @return
      */
     public List<ImportDatas> excelToList(String importFilePath) {
@@ -112,7 +110,8 @@ public final class CiiService {
     /**
      * Add brutto in invoice items.
      *
-     * @param excelFilePath
+     * @param machines
+     * @return 
      */
     public List<ImportDatas> bruttoToImportList(List<ImportDatas> machines) {
 
@@ -143,6 +142,12 @@ public final class CiiService {
         }
     }
 
+    /**
+     * Crreate 
+     * @param item
+     * @param machines
+     * @return 
+     */
     public List<ExportDatas> createItemList(ExportDatas item, List<ImportDatas> machines) {
         items = new ArrayList<>();
         ExportDatas element;
@@ -163,6 +168,8 @@ public final class CiiService {
      * Export Canon invoices from excel file.
      *
      * @param exportFilePath
+     * @param items
+     * @throws java.io.FileNotFoundException
      *
      */
     public void listToExcel(String exportFilePath, List<ExportDatas> items) throws FileNotFoundException, IOException {

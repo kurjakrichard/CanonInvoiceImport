@@ -47,9 +47,9 @@ public class ciiFXMLDocumentController implements Initializable {
 
     private CiiService ciiService;
     private final String USERHOME = System.getProperty("user.home");
-   // private final String IMPORTFILEPATH = USERHOME +"\\OneDrive\\Asztali gép\\import.xlsx";
+    // private final String IMPORTFILEPATH = USERHOME +"\\OneDrive\\Asztali gép\\import.xlsx";
     //private final String EXPORTFILEPATH = USERHOME + "\\OneDrive\\Asztali gép\\export.xlsx";    
-    private final String IMPORTFILEPATH = USERHOME +"\\Desktop\\import.xlsx";
+    private final String IMPORTFILEPATH = USERHOME + "\\Desktop\\import.xlsx";
     private final String EXPORTFILEPATH = USERHOME + "\\Desktop\\export.xlsx";
     private List<ImportDatas> machines;
     private ExportDatas item;
@@ -71,22 +71,27 @@ public class ciiFXMLDocumentController implements Initializable {
     @FXML
     private void handleImportButtonAction(ActionEvent event) {
         try {
-            invoiceDate = inpurInvoiceDate.getValue().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
-            settlingDate = inputsettlingDate.getValue().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
-            VATDate = inputVATDate.getValue().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
-            dueDate = inputDueDate.getValue().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
-            bookingDate = inputBookingDate.getValue().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
-            notes = inputNotes.getText();
             machines = ciiService.excelToList(IMPORTFILEPATH);
             ciiService.bruttoToImportList(machines);
         } catch (Exception e) {
-            alert(Alert.AlertType.ERROR, "Kérlek, adj meg minden adatot!");
+            alert(Alert.AlertType.ERROR, "Hiányzik a fájl!");
         }
     }
 
     @FXML
     private void handleExportButtonAction(ActionEvent event) {
         try {
+            try {
+                invoiceDate = inpurInvoiceDate.getValue().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+                settlingDate = inputsettlingDate.getValue().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+                VATDate = inputVATDate.getValue().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+                dueDate = inputDueDate.getValue().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+                bookingDate = inputBookingDate.getValue().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+                notes = inputNotes.getText();
+            } catch (Exception e) {
+                alert(Alert.AlertType.ERROR, "Kérlek, adj meg minden adatot!");
+                return;
+            }
             item = new ExportDatas(invoiceDate, settlingDate, VATDate, dueDate, bookingDate, notes);
             items = ciiService.createItemList(item, machines);
             ciiService.listToExcel(EXPORTFILEPATH, items);
