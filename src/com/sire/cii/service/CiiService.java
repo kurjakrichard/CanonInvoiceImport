@@ -12,6 +12,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -99,7 +101,7 @@ public final class CiiService {
         } catch (FileNotFoundException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
-            alert.setContentText("Hiányzik a fájl!");
+            alert.setContentText("Hiányzik a fájl! import.xlsx néven mentsd az asztalra!");
             alert.showAndWait();
         } catch (IOException ex) {
             System.out.println("Hiba2");
@@ -111,7 +113,7 @@ public final class CiiService {
      * Add brutto in invoice items.
      *
      * @param machines
-     * @return 
+     * @return
      */
     public List<ImportDatas> bruttoToImportList(List<ImportDatas> machines) {
 
@@ -143,10 +145,11 @@ public final class CiiService {
     }
 
     /**
-     * Crreate 
+     * Crreate
+     *
      * @param item
      * @param machines
-     * @return 
+     * @return
      */
     public List<ExportDatas> createItemList(ExportDatas item, List<ImportDatas> machines) {
         items = new ArrayList<>();
@@ -164,6 +167,12 @@ public final class CiiService {
         return items;
     }
 
+    private LocalDate dateFormatter(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+        LocalDate convertedDate = LocalDate.parse(date, formatter);
+        return convertedDate;
+    }
+
     /**
      * Export Canon invoices from excel file.
      *
@@ -173,34 +182,74 @@ public final class CiiService {
      *
      */
     public void listToExcel(String exportFilePath, List<ExportDatas> items) throws FileNotFoundException, IOException {
-        FileOutputStream out = new FileOutputStream(new File(exportFilePath));
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet = workbook.createSheet();
-        workbook.setSheetName(0, "Munka1");
-        Row row = sheet.createRow(0);
-        for (int i = 0; i < columnNames.length; i++) {
-            row.createCell(i).setCellValue(columnNames[i]);
+        if (items.size() != 0) {
+            FileOutputStream out = new FileOutputStream(new File(exportFilePath));
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            XSSFSheet sheet = workbook.createSheet();
+            workbook.setSheetName(0, "Munka1");
+            Row row = sheet.createRow(0);
+            for (int i = 0; i < columnNames.length; i++) {
+                row.createCell(i).setCellValue(columnNames[i]);
+            }
+            int rowNum = 1;
+            for (ExportDatas item : items) {
+
+                //Itt adom meg a dátumok formátumát
+                CellStyle cellStyle = workbook.createCellStyle();
+                CreationHelper createHelper = workbook.getCreationHelper();
+                cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("yyyy.MM.dd"));
+
+                row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(item.getInvoiceNumber());
+
+                //Kell egy dátum a stringben tárolt számladátumok átalakításához dátummá. Ez a többi dátumhoz is felhasználható.
+                LocalDate date = dateFormatter(item.getInvoiceDate());
+                //Létre kell hoznom külon a cellát.
+                Cell cell = row.createCell(1);
+                //Hozzáadom a dátumot
+                cell.setCellValue(date);
+                //Megformázom a cellastílussal
+                cell.setCellStyle(cellStyle);
+
+                //Az előző 4x a többi dátumra
+                date = dateFormatter(item.getSettlingDate());
+                cell = row.createCell(2);
+                cell.setCellValue(date);
+                cell.setCellStyle(cellStyle);
+
+                date = dateFormatter(item.getVATDate());
+                cell = row.createCell(3);
+                cell.setCellValue(date);
+                cell.setCellStyle(cellStyle);
+
+                date = dateFormatter(item.getDueDate());
+                cell = row.createCell(4);
+                cell.setCellValue(date);
+                cell.setCellStyle(cellStyle);
+
+                date = dateFormatter(item.getBookingDate());
+                cell = row.createCell(5);
+                cell.setCellValue(date);
+                cell.setCellStyle(cellStyle);
+
+                row.createCell(6).setCellValue(item.getNetto());
+                row.createCell(7).setCellValue(item.getBruttoSumInvoice());
+                row.createCell(8).setCellValue(item.getCostCenter());
+                row.createCell(9).setCellValue(item.getOrderNumber());
+                row.createCell(10).setCellValue(item.getEmployee());
+                row.createCell(11).setCellValue(item.getMachineID());
+                row.createCell(12).setCellValue(item.getProjekt());
+                row.createCell(13).setCellValue(item.getNotes());
+            }
+            workbook.write(out);
+            out.close();
+            workbook.close();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Hiányzik a fájl! import.xlsx néven mentsd az asztalra!");
+            alert.showAndWait();
         }
-        int rowNum = 1;
-        for (ExportDatas item : items) {
-            row = sheet.createRow(rowNum++);
-            row.createCell(0).setCellValue(item.getInvoiceNumber());
-            row.createCell(1).setCellValue(item.getInvoiceDate());
-            row.createCell(2).setCellValue(item.getSettlingDate());
-            row.createCell(3).setCellValue(item.getVATDate());
-            row.createCell(4).setCellValue(item.getDueDate());
-            row.createCell(5).setCellValue(item.getBookingDate());
-            row.createCell(6).setCellValue(item.getNetto());
-            row.createCell(7).setCellValue(item.getBruttoSumInvoice());
-            row.createCell(8).setCellValue(item.getCostCenter());
-            row.createCell(9).setCellValue(item.getOrderNumber());
-            row.createCell(10).setCellValue(item.getEmployee());
-            row.createCell(11).setCellValue(item.getMachineID());
-            row.createCell(12).setCellValue(item.getProjekt());
-            row.createCell(13).setCellValue(item.getNotes());
-        }
-        workbook.write(out);
-        out.close();
-        workbook.close();
+
     }
 }
