@@ -12,13 +12,18 @@ import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  *
@@ -43,14 +48,24 @@ public class ciiFXMLDocumentController implements Initializable {
     private TextField inputNotes;
     @FXML
     private Button importButtun;
+    @FXML
+    private TableView<ImportDatas> invoiceList;
+    @FXML
+    private TableColumn<ImportDatas, Double> invoiceNumberColumn;
+    @FXML
+    private TableColumn<ImportDatas, String> partnerNameColumn;
+    @FXML
+    private TableColumn<ImportDatas, Double> nettoColumn;
+    @FXML
+    private TableColumn<ImportDatas, String> machineidColumn;
 //</editor-fold>
 
     private CiiService ciiService;
     private final String USERHOME = System.getProperty("user.home");
-    //private final String IMPORTFILEPATH = USERHOME + "\\OneDrive\\Asztali gép\\import.xlsx";
-    //private final String EXPORTFILEPATH = USERHOME + "\\OneDrive\\Asztali gép\\export.xlsx";
-    private final String IMPORTFILEPATH = USERHOME + "\\Desktop\\import.xlsx";
-    private final String EXPORTFILEPATH = USERHOME + "\\Desktop\\export.xlsx";
+    private final String IMPORTFILEPATH = USERHOME + "\\OneDrive\\Asztali gép\\import.xlsx";
+    private final String EXPORTFILEPATH = USERHOME + "\\OneDrive\\Asztali gép\\export.xlsx";
+    //private final String IMPORTFILEPATH = USERHOME + "\\Desktop\\import.xlsx";
+    //private final String EXPORTFILEPATH = USERHOME + "\\Desktop\\export.xlsx";
     private List<ImportDatas> machines;
     private ExportDatas item;
     private List<ExportDatas> items;
@@ -61,17 +76,31 @@ public class ciiFXMLDocumentController implements Initializable {
     String bookingDate;
     double netto;
     String notes;
+    ObservableList<ImportDatas> importDatasList;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         ciiService = new CiiService();
+    }
+
+    private void initCol() {
+        invoiceNumberColumn.setCellValueFactory(new PropertyValueFactory<>("invoiceNumber"));
+        partnerNameColumn.setCellValueFactory(new PropertyValueFactory<>("partnerName"));
+        nettoColumn.setCellValueFactory(new PropertyValueFactory<>("netto"));
+        machineidColumn.setCellValueFactory(new PropertyValueFactory<>("machineID"));
+    }
+
+    private void loadData() {
+        importDatasList = FXCollections.observableArrayList(machines);
+        invoiceList.getItems().setAll(importDatasList);
     }
 
     @FXML
     private void handleImportButtonAction(ActionEvent event) {
         machines = ciiService.excelToList(IMPORTFILEPATH);
         ciiService.bruttoToImportList(machines);
+        initCol();
+        loadData();
     }
 
     @FXML

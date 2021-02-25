@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -21,6 +22,7 @@ public class CanonInvoiceImport extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("ciiFXMLDocument.fxml"));
         stage.setTitle("Canon számla import");
+        stage.getIcons().add(new Image("iconfinder_canon_3069755.png"));
         stage.setResizable(false);
         Scene scene = new Scene(root);
         stage.setScene(scene);

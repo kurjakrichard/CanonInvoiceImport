@@ -53,6 +53,7 @@ public final class CiiService {
             FileInputStream inputStream = new FileInputStream(importFilePath);
             Workbook workbook = new XSSFWorkbook(inputStream);
             Iterator<Sheet> sheetIterator = workbook.iterator();
+            double oldInvoiceNumber = 0;
             while (sheetIterator.hasNext()) {
                 Sheet sheet = sheetIterator.next();
                 Iterator<Row> rowIterator = sheet.iterator();
@@ -76,7 +77,10 @@ public final class CiiService {
                                     brutto = nextCell.getNumericCellValue();
                                     break;
                                 case 14:
-                                    partnerName = nextCell.getStringCellValue();
+                                    if (oldInvoiceNumber != invoiceNumber) {
+                                        partnerName = nextCell.getStringCellValue();
+                                    }
+                                    oldInvoiceNumber = invoiceNumber;
                                     break;
                                 case 17:
                                     try {
