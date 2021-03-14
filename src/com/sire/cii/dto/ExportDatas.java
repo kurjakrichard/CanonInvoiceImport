@@ -41,8 +41,8 @@ public class ExportDatas {
         this.netto = 0;
         this.bruttoSumInvoice = 0;
         this.costCenter = "";
-        this.orderNumber = "";
-        this.employee = "";
+        this.orderNumber = "/Nincs rendeléshez sorolva";
+        this.employee = "/nincs dolgozóhoz sorolva";
         this.machineID = "";
         this.projekt = "";
         this.notes = notes;

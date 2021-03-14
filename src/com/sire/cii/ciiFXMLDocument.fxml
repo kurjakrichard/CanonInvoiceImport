@@ -83,7 +83,7 @@
                            </padding>
                         </Label>
                         <DatePicker id="inpurInvoiceDate" fx:id="inpurInvoiceDate" prefHeight="24.0" prefWidth="224.0" GridPane.columnIndex="1" />
-                        <DatePicker id="inputsettlingDate" fx:id="inputsettlingDate" prefHeight="24.0" prefWidth="224.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <DatePicker id="inputsettlingDate" fx:id="inputsettlingDate" onAction="#fillDates" prefHeight="24.0" prefWidth="224.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <DatePicker id="inpurtVATDate" fx:id="inputVATDate" prefHeight="24.0" prefWidth="224.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <DatePicker id="inputDueDate" fx:id="inputDueDate" prefHeight="24.0" prefWidth="224.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <DatePicker id="inputBookingDate" fx:id="inputBookingDate" prefHeight="24.0" prefWidth="224.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />

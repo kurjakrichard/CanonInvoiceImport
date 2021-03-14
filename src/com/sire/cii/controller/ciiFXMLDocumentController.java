@@ -9,12 +9,15 @@ import com.sire.cii.dto.ExportDatas;
 import com.sire.cii.dto.ImportDatas;
 import com.sire.cii.service.CiiService;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -24,6 +27,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.InputMethodEvent;
 
 /**
  *
@@ -99,6 +103,7 @@ public class ciiFXMLDocumentController implements Initializable {
     private void handleImportButtonAction(ActionEvent event) {
         machines = ciiService.excelToList(IMPORTFILEPATH);
         ciiService.bruttoToImportList(machines);
+        machines = ciiService.sumMachines(machines);
         initCol();
         loadData();
     }
@@ -131,4 +136,12 @@ public class ciiFXMLDocumentController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    @FXML
+    private void fillDates(ActionEvent event) {
+        LocalDate date = inputsettlingDate.getValue();
+        inputVATDate.setValue(date);
+        inputDueDate.setValue(date);
+    }
+
 }

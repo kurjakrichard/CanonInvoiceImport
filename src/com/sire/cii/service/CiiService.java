@@ -15,10 +15,13 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javafx.scene.control.Alert;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.*;
@@ -111,6 +114,29 @@ public final class CiiService {
             System.out.println("Hiba2");
         }
         return machines;
+    }
+
+    public List<ImportDatas> sumMachines(List<ImportDatas> oldMachinelist) {
+
+        HashMap<List<String>, ImportDatas> machines = new LinkedHashMap<>();
+
+        //Ez elkészíti a listát azokkal a tételekkel, ahol van elem.
+        for (ImportDatas machine : oldMachinelist) {
+            List<String> machineKey = Arrays.asList(String.valueOf(machine.getInvoiceNumber()), machine.getMachineID());
+            if (machines.containsKey(machineKey)) {
+                //key exists
+                ImportDatas keyMachine = machines.get(machineKey);
+                keyMachine.setNetto(keyMachine.getNetto() + machine.getNetto());
+                machines.put(machineKey, keyMachine);
+            } else {
+                //key does not exists
+                machines.putIfAbsent(machineKey, machine);
+            }
+        }
+
+        List<ImportDatas> newMachineList = machines.values().stream().collect(Collectors.toList());
+
+        return newMachineList;
     }
 
     /**

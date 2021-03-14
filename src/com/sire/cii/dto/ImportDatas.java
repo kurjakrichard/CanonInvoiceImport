@@ -38,6 +38,10 @@ public class ImportDatas {
         return netto;
     }
 
+    public void setNetto(double netto) {
+        this.netto = netto;
+    }
+
     public double getBrutto() {
         return brutto;
     }
@@ -45,7 +49,7 @@ public class ImportDatas {
     public void setBrutto(double brutto) {
         this.brutto = brutto;
     }
-    
+
     public String getMachineID() {
         return machineID;
     }
