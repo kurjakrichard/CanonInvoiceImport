@@ -54,6 +54,10 @@ public class ImportDatas {
         return machineID;
     }
 
+    public void setMachineID(String machineID) {
+        this.machineID = machineID;
+    }
+    
     public String getPartnerName() {
         return partnerName;
     }

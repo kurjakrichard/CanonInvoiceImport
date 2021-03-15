@@ -27,7 +27,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.*;
 
 /**
- *
+ * Class for collect all methods for importing Canon invoices
  * @author sire
  */
 public final class CiiService {
@@ -35,6 +35,8 @@ public final class CiiService {
     private List<ExportDatas> items;
     private final String[] columnNames = {"SzamlaSzam", "Kelte", "Teljesites", "AFADatum", "Hatarido", "Konyveles", "Netto", "BrutoVegosszeg", "Ktgh", "Rendeles", "Dolgozó", "Gep", "Projekt", "Megjegyzes"};
     private final String serviceText = "Szervíz példányszám ";
+    private final String nonMachineID = "/nincs géphez sorolva";
+
 
     public CiiService() {
     }
@@ -116,6 +118,49 @@ public final class CiiService {
         return machines;
     }
 
+    /**
+     * Sum company details if the company in the list
+     * @param companies
+     * @param oldMachinelist
+     * @return
+     */
+    public List<ImportDatas> sumCompanies(List<String> companies, List<ImportDatas> oldMachinelist) {
+        if (companies.isEmpty()) {
+            return oldMachinelist;
+        } else {
+            List<ImportDatas> newMachineList = new ArrayList<>();
+            HashMap<String, ImportDatas> machines = new LinkedHashMap<>();
+            for (String company : companies) {
+                for (ImportDatas machine : oldMachinelist) {
+                    if (!company.equals(machine.getPartnerName())) {
+                        newMachineList.add(machine);
+                    } else {
+                        String machineKey = String.valueOf(machine.getInvoiceNumber());
+                        if (machines.containsKey(machineKey)) {
+                            //key exists
+                            ImportDatas keyMachine = machines.get(machineKey);
+                            keyMachine.setNetto(keyMachine.getNetto() + machine.getNetto());
+                            keyMachine.setBrutto(keyMachine.getBrutto() + machine.getBrutto());
+                            machines.put(machineKey, keyMachine);
+                        } else {
+                            //key does not exists
+                            machine.setMachineID(nonMachineID);
+                            machines.putIfAbsent(machineKey, machine);
+                        }
+                    }
+                }
+            }
+            List<ImportDatas> tempMachineList = machines.values().stream().collect(Collectors.toList());
+            newMachineList.addAll(tempMachineList);
+            return newMachineList;
+        }
+    }
+
+    /**
+     * Sum the same machine details
+     * @param oldMachinelist
+     * @return
+     */
     public List<ImportDatas> sumMachines(List<ImportDatas> oldMachinelist) {
 
         HashMap<List<String>, ImportDatas> machines = new LinkedHashMap<>();
@@ -127,6 +172,7 @@ public final class CiiService {
                 //key exists
                 ImportDatas keyMachine = machines.get(machineKey);
                 keyMachine.setNetto(keyMachine.getNetto() + machine.getNetto());
+                keyMachine.setBrutto(keyMachine.getBrutto() + machine.getBrutto());
                 machines.put(machineKey, keyMachine);
             } else {
                 //key does not exists
@@ -140,7 +186,7 @@ public final class CiiService {
     }
 
     /**
-     * Add brutto in invoice items.
+     * Add sum of invoice brutto instead of machine brutto.
      *
      * @param machines
      * @return
@@ -162,12 +208,20 @@ public final class CiiService {
         return machines;
     }
 
+    /**
+     * Only for testing
+     * @param machines
+     */
     public void printImportList(List<ImportDatas> machines) {
         for (ImportDatas machine : machines) {
             System.out.println(machine.toString());
         }
     }
 
+    /**
+     * Only for testing
+     * @param items
+     */
     public void printExportList(List<ExportDatas> items) {
         for (ExportDatas item : items) {
             System.out.println(item.toString());
@@ -175,7 +229,7 @@ public final class CiiService {
     }
 
     /**
-     * Crreate
+     * Create itemlist to export excel
      *
      * @param item
      * @param machines
@@ -204,7 +258,7 @@ public final class CiiService {
     }
 
     /**
-     * Export Canon invoices from excel file.
+     * Export Canon invoices to an excel file.
      *
      * @param exportFilePath
      * @param items

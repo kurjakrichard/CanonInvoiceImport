@@ -11,13 +11,13 @@ import com.sire.cii.service.CiiService;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -27,7 +27,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.InputMethodEvent;
 
 /**
  *
@@ -71,6 +70,7 @@ public class ciiFXMLDocumentController implements Initializable {
     //private final String IMPORTFILEPATH = USERHOME + "\\Desktop\\import.xlsx";
     //private final String EXPORTFILEPATH = USERHOME + "\\Desktop\\export.xlsx";
     private List<ImportDatas> machines;
+    private final List<String> companies;
     private ExportDatas item;
     private List<ExportDatas> items;
     String invoiceDate;
@@ -81,6 +81,10 @@ public class ciiFXMLDocumentController implements Initializable {
     double netto;
     String notes;
     ObservableList<ImportDatas> importDatasList;
+
+    public ciiFXMLDocumentController() {
+        this.companies = new ArrayList<>(Arrays.asList("DMRV Zrt."));
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -100,10 +104,18 @@ public class ciiFXMLDocumentController implements Initializable {
     }
 
     @FXML
+    private void fillDates(ActionEvent event) {
+        LocalDate date = inputsettlingDate.getValue();
+        inputVATDate.setValue(date);
+        inputDueDate.setValue(date);
+    }
+
+    @FXML
     private void handleImportButtonAction(ActionEvent event) {
         machines = ciiService.excelToList(IMPORTFILEPATH);
-        ciiService.bruttoToImportList(machines);
+        machines = ciiService.sumCompanies(companies, machines);
         machines = ciiService.sumMachines(machines);
+        ciiService.bruttoToImportList(machines);
         initCol();
         loadData();
     }
@@ -136,12 +148,4 @@ public class ciiFXMLDocumentController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-    @FXML
-    private void fillDates(ActionEvent event) {
-        LocalDate date = inputsettlingDate.getValue();
-        inputVATDate.setValue(date);
-        inputDueDate.setValue(date);
-    }
-
 }
