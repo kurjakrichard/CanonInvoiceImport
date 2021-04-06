@@ -104,6 +104,10 @@ public class ExportDatas {
         return costCenter;
     }
 
+    public void setCostCenter(String costCenter) {
+        this.costCenter = costCenter;
+    }
+
     public String getOrderNumber() {
         return orderNumber;
     }
