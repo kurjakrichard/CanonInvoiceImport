@@ -36,6 +36,7 @@ public final class CiiService {
     private final String[] columnNames = {"SzamlaSzam", "Kelte", "Teljesites", "AFADatum", "Hatarido", "Konyveles", "Netto", "BrutoVegosszeg", "Ktgh", "Rendeles", "Dolgozó", "Gep", "Projekt", "Megjegyzes"};
     private final String serviceText = "Szervíz példányszám ";
     private final String nonMachineID = "/nincs géphez sorolva";
+    private final String nonProjectID = "Canon szla";
 
 
     public CiiService() {
@@ -247,6 +248,9 @@ public final class CiiService {
             element.setMachineID(machine.getMachineID());
             element.setNotes(serviceText + text + " " + machine.getPartnerName());
             items.add(element);
+            if(machine.getMachineID().equals(nonMachineID)){
+                element.setProjekt(nonProjectID);
+            }
         }
         return items;
     }
